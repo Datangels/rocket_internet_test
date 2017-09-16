@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class Link(object):
     def __init__(self, parent_name, child_name):
         self.parent_name = parent_name
@@ -6,11 +8,10 @@ class Link(object):
 
 def find_venture(links, name):
     """
-    ​Given​ ​a​ ​list​ ​of​ ​links​ ​and​ ​an​ ​account​ ​name,​ ​finds​ ​the​ ​name​ ​of​ ​the
-    venture​ ​it​ ​belongs.​
-    :param links: 
-    :param name: 
-    :return: 
+    ​Given​ ​a​ ​list​ ​of​ ​links​ ​and​ ​an​ ​account​ ​name,​ ​finds​ ​the​ ​name​ ​of​ ​the venture​ ​it​ ​belongs.​
+    :param links: list
+    :param name: str
+    :return: str
     """
     link = [elem for elem in links if elem.child_name == name][0]
     if link.parent_name == 'Root':
