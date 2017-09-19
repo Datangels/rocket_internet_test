@@ -7,7 +7,8 @@ FROM deliveries
         ON events.city_id = cities.city_id
 WHERE cities.city_name = 'Singapore' or cities.city_name = 'Bangkok'
 AND deliveries.status = 'completed'
-AND DATE_FORMAT(deliveries.actual_eta, '%m/%d/%Y') BETWEEN NOW() - INTERVAL 30 DAY AND NOW();
+AND DATE_FORMAT(deliveries.actual_eta, '%m/%d/%Y') BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
+GROUP BY cities.city_name;
 
 
 SELECT cities.city_name, DAYNAME(events._ts),
@@ -19,5 +20,7 @@ FROM deliveries
         ON events.city_id = cities.city_id
 WHERE cities.city_name = 'Singapore' or cities.city_name = 'Bangkok'
 AND deliveries.status = 'completed'
-AND events._ts BETWEEN STR_TO_DATE('01/01/2016', '%m/%d/%Y') AND STR_TO_DATE('07/01/2016', '%m/%d/%Y')
-AND deliveries.actual_eta <= STR_TO_DATE('14/01/2016', '%m/%d/%Y');
+AND DATEPART(wk, events._ts) = 1
+AND YEAR(wk,events._ts) = 2016
+AND deliveries.requested_at <= DATEADD(HOUR, 168, events._ts)
+GROUP BY cities.city_name, events._ts;
